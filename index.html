@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ece Yuksel — Research · Design · Navigation</title>
+  <meta name="description" content="Ece Yuksel — Ph.D. candidate researching spatial navigation, aging, and human-centered design. Minimal, black-and-white site." />
+  <meta property="og:title" content="Ece Yuksel" />
+  <meta property="og:description" content="Spatial navigation · Aging · VR · UX Research" />
+  <meta name="theme-color" content="#000000" />
+  <style>
+    :root{
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #666666;
+      --line: #e6e6e6;
+      --maxw: 760px;
+    }
+    *, *::before, *::after{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.6 ui-sans-serif, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    a{ color: inherit; text-decoration-thickness: .08em; text-underline-offset: .18em; }
+    a:hover{ text-decoration: underline; }
+
+    /* Layout */
+    .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 28px 20px 80px; }
+    header{ display: grid; grid-template-columns: 1fr; gap: 8px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+    header h1{ margin: 0; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: -0.01em; }
+    header p{ margin: 0; color: var(--muted); }
+
+    nav{ display: flex; gap: 14px; padding: 12px 0 0; flex-wrap: wrap; }
+    nav a{ text-decoration: none; padding: 4px 0; border-bottom: 1px solid transparent; }
+    nav a[aria-current="page"], nav a:hover{ border-bottom-color: var(--fg); }
+
+    main{ display: grid; gap: 40px; padding-top: 28px; }
+    section h2{ font-size: 13px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+    section .card{ border-top: 1px solid var(--line); padding-top: 16px; }
+
+    /* Lists */
+    .list{ display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+    .item-title{ font-weight: 600; }
+    .meta{ color: var(--muted); font-size: 14px; }
+
+    /* Footer */
+    footer{ margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+    /* Callouts */
+    .pill{ display: inline-block; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-size: 13px; color: var(--muted); }
+
+    /* Responsive tweaks */
+    @media (min-width: 860px){
+      header{ grid-template-columns: 1fr auto; align-items: end; }
+      nav{ justify-content: flex-end; }
+    }
+
+    /* Print friendly for CV look */
+    @media print{
+      a{ text-decoration: none; }
+      header, footer, nav{ border: none; }
+      .wrap{ padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Ece Yuksel</h1>
+        <p>Architect × Cognitive Psychologist · Ph.D. candidate · Spatial navigation, aging & VR</p>
+      </div>
+      <nav aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#publications">Publications</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="about" class="card" aria-labelledby="about-h">
+        <h2 id="about-h">About</h2>
+        <p>
+          I study how people learn and navigate complex spaces—physical and virtual—and how design choices shape memory and wayfinding.
+          My work bridges <span class="pill">spatial cognition</span> <span class="pill">aging</span> <span class="pill">VR</span> and <span class="pill">human‑centered design</span>.
+        </p>
+        <p class="meta">University of Florida · Behavioral & Cognitive Neuroscience (Ph.D. candidate). 
+          <a href="yuksel_CV.pdf" aria-label="Download my CV (PDF)">CV (PDF)</a>
+        </p>
+      </section>
+
+      <section id="research" class="card" aria-labelledby="research-h">
+        <h2 id="research-h">Research</h2>
+        <ul class="list">
+          <li>
+            <div class="item-title">Navigation across modalities & age</div>
+            <div class="meta">VR vs real‑world navigation; global reference cues; strategy use; Virtual Silcton</div>
+          </li>
+          <li>
+            <div class="item-title">Design for wayfinding</div>
+            <div class="meta">Architectural affordances; environmental cues; human‑centric spatial layout</div>
+          </li>
+          <li>
+            <div class="item-title">Methods</div>
+            <div class="meta">Mixed‑methods (behavioral + qualitative); task design; translational insights for UX</div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="awards" class="card" aria-labelledby="awards-h">
+        <h2 id="awards-h">Selected Awards</h2>
+        <ul class="list">
+          <li><div class="item-title">Jacquelin Goldman Spring Scholarship</div><div class="meta">2024, 2025</div></li>
+          <li><div class="item-title">Psychonomic Society Graduate Conference Awards</div><div class="meta">2023, 2025</div></li>
+          <li><div class="item-title">UF Graduate Student Travel Awards</div><div class="meta">2023, 2024, 2025</div></li>
+          <li><div class="item-title">Certificate of Outstanding Merit</div><div class="meta">UF International Student Achievement Awards (2022)</div></li>
+        </ul>
+      </section>
+
+      <section id="publications" class="card" aria-labelledby="pubs-h">
+        <h2 id="pubs-h">Publications & Works</h2>
+        <ul class="list">
+          <li>
+            <div class="item-title">This is not the way: global directional cues do not improve spatial learning in an immersive virtual environment</div>
+            <div class="meta">Cognitive Research (2025) · with Boogaart & Weisberg · <a href="https://doi.org/10.1186/s41235-025-00654-1" target="_blank" rel="noopener">DOI</a></div>
+          </li>
+          <li>
+            <div class="item-title">Newly trained navigation and verbal memory skills elicit changes in task-related networks but not brain structure</div>
+            <div class="meta">eLife (2025) · with Zheng, Boogaart, McAvan, et al. · <a href="https://doi.org/10.7554/eLife.106873.1" target="_blank" rel="noopener">DOI</a></div>
+          </li>
+          <li>
+            <div class="item-title">Lost in (Virtual) Space? Age Differences in Spatial Navigation in Real‑World and VR</div>
+            <div class="meta">Qualifying exam review (under revision)</div>
+          </li>
+          <li>
+            <div class="item-title">Navigating the metaverse: Scale & expertise in immersive vs desktop VR</div>
+            <div class="meta">M.S. thesis / in prep</div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="teaching" class="card" aria-labelledby="teach-h">
+        <h2 id="teach-h">Teaching</h2>
+        <ul class="list">
+          <li>
+            <div class="item-title">PSY2012 — General Psychology</div>
+            <div class="meta">Graduate Instructor (Fall 2025, Spring 2026)</div>
+          </li>
+          <li>
+            <div class="item-title">TAships</div>
+            <div class="meta">Memory & Memory Improvement (Sp25); General Psychology (Fa24); Cognitive Psychology (Sp22, Sp23); Physiological Psychology (Fa21, Fa23); Sensation & Perception Lab (Fa22)</div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="contact" class="card" aria-labelledby="contact-h">
+        <h2 id="contact-h">Contact</h2>
+        <p>
+          Email: <a href="mailto:eceyuksel@ufl.edu">eceyuksel@ufl.edu</a>
+          · <a href="https://sites.google.com/view/yukselece?usp=sharing" rel="noopener" target="_blank">Website</a>
+          · <a href="https://www.linkedin.com/in/ece-yuksel/" rel="noopener" target="_blank">LinkedIn</a>
+          · <a href="https://github.com/eceyuksel" rel="noopener" target="_blank">GitHub</a>
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div>&copy; <span id="y"></span> Ece Yuksel · Minimal B/W</div>
+    </footer>
+  </div>
+
+  <script>
+    // Set year
+    document.getElementById('y').textContent = new Date().getFullYear();
+    // Mark current section in nav on hash change
+    const navLinks = Array.from(document.querySelectorAll('nav a'));
+    function mark(){
+      const h = location.hash || '#about';
+      navLinks.forEach(a => a.setAttribute('aria-current', a.getAttribute('href')===h ? 'page' : 'false'));
+    }
+    window.addEventListener('hashchange', mark);
+    mark();
+  </script>
+</body>
+</html>
