@@ -9,20 +9,25 @@
   <style>
     :root{
       --bg:#ffffff; --fg:#000000; --muted:#222222;
-      --line:#000000; --accent:#000000; --maxw:860px;
+      --line:rgba(0,0,0,.18); --accent:#000000; --maxw:860px;
       --pb-w:10px;
     }
+    /* Dark theme variables */
     [data-theme="dark"]{
       --bg:#000000; --fg:#ffffff; --muted:#d0d0d0;
-      --line:#000000; --accent:#ffffff;
+      --line:rgba(255,255,255,.18); --accent:#ffffff;
     }
 
     html,body{margin:0;padding:0;height:100%;scroll-behavior:smooth;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,-apple-system,system-ui,"Segoe UI",Roboto,Arial,"Noto Sans";overflow-x:hidden;transition:background .4s ease,color .4s ease;}
     a{color:inherit;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.08em;}
 
-    /* LEFT SCROLL PROGRESS BAR */
-    .progress-track{position:fixed;inset:0 auto 0 0;width:var(--pb-w);background:transparent;border:1px solid #000;border-left:none;box-sizing:border-box;z-index:9999}
-    .progress-bar{position:absolute;left:0;top:0;width:100%;height:0%;background:#000;transition:height .12s linear;}
+    /* LEFT SCROLL PROGRESS BAR (theme-aware) */
+    .progress-track{
+      position:fixed;inset:0 auto 0 0;width:var(--pb-w);
+      background:transparent;border:1px solid var(--fg);border-left:none;
+      box-sizing:border-box;z-index:9999
+    }
+    .progress-bar{position:absolute;left:0;top:0;width:100%;height:0%;background:var(--fg);transition:height .12s linear;}
 
     /* HERO */
     .hero{position:relative;width:100%;height:100vh;background:url('22.jpg') center/cover no-repeat;filter:grayscale(100%);display:flex;justify-content:center;align-items:center;text-align:center;transition:filter .4s ease;}
@@ -41,26 +46,30 @@
     .hero-bottom{position:absolute;left:0;right:0;bottom:28px;display:flex;justify-content:center;z-index:2;}
     .hero-nav{display:flex;flex-wrap:wrap;gap:10px 12px;justify-content:center;padding:0 20px;}
     .hero-nav a{
-      text-decoration:none;border:1px solid #000;background:#000;color:#fff;
+      text-decoration:none;border:1px solid var(--fg);background:var(--fg);color:var(--bg);
       padding:8px 12px;border-radius:0;font-size:14px;line-height:1;
       transition:background .2s ease, transform .12s ease, outline-color .2s ease;will-change:transform;
     }
-    .hero-nav a:hover{background:#111;color:#fff;transform:translateY(-2px);}
-    .hero-nav a:focus{outline:2px solid #fff;outline-offset:2px;}
+    .hero-nav a:hover{background:color-mix(in oklab, var(--fg), var(--bg) 15%);color:var(--bg);transform:translateY(-2px);}
+    .hero-nav a:focus{outline:2px solid var(--bg);outline-offset:2px;}
     .hero-bottom.is-sticky{
       position:fixed;top:0;bottom:auto;left:0;right:0;background:var(--bg);
       border-bottom:1px solid var(--line);padding:10px 0;z-index:10020;
     }
-    .hero-bottom.is-sticky .hero-nav a{border-color:#000;background:#000;color:#fff;}
-    .hero-bottom.is-sticky .hero-nav a:focus{outline-color:#000;}
+    .hero-bottom.is-sticky .hero-nav a{border-color:var(--fg);background:var(--fg);color:var(--bg);}
+    .hero-bottom.is-sticky .hero-nav a:focus{outline-color:var(--fg);}
 
     /* CONTENT */
     .content{position:relative;z-index:3;padding:50px 20px;max-width:var(--maxw);margin:0 auto;}
     section{margin-bottom:80px;border-top:1px solid var(--line);padding-top:30px;}
     section h2{text-transform:uppercase;font-size:clamp(20px,2.2vw,26px);letter-spacing:.18em;font-weight:700;margin:0 0 14px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
     .icon-ey{width:24px;height:24px;object-fit:contain;vertical-align:middle;display:inline-block;}
+    /* About icons: light vs dark */
+    .icon-ey.dark{display:none;}
+    [data-theme="dark"] .icon-ey.light{display:none;}
+    [data-theme="dark"] .icon-ey.dark{display:inline-block;}
 
-    /* Subheadings (more space between h3 blocks) */
+    /* Subheadings */
     h3{font-size:18px;margin:36px 0 14px;font-weight:700;}
     section h3:first-of-type{margin-top:8px;}
     .list + h3, .grid-2 + h3, .projects-grid + h3, .news-grid + h3{margin-top:42px;}
@@ -70,7 +79,6 @@
     @media(min-width:780px){.grid-2{grid-template-columns:1fr 1fr;}}
     .item-title{font-weight:600;}
     .meta{color:var(--muted);font-size:14.5px;}
-    .pill{display:inline-block;border:1px solid var(--fg);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--fg);margin-right:6px;}
 
     .theme-toggle{position:fixed;top:20px;right:20px;border:1px solid var(--fg);background:transparent;color:var(--fg);border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;z-index:10000;transition:background .3s ease,color .3s ease;}
     .theme-toggle:hover{background:var(--fg);color:var(--bg);}
@@ -84,104 +92,40 @@
     .cv-btn:hover{transform:translateY(-2px);background:var(--fg);color:var(--bg);}
     .cv-btn:focus{outline:2px solid var(--fg);outline-offset:2px;}
 
-    /* News grid (kept for compatibility, not used for timeline) */
-    .news-grid{display:grid;grid-template-columns:1fr;gap:16px;}
-    @media(min-width:780px){.news-grid{grid-template-columns:1fr 1fr;}}
-    .news-card{border:1px solid var(--line);padding:12px;border-radius:12px;display:grid;gap:10px;}
-    .news-media{width:100%;aspect-ratio:16/9;background:#f0f0f0;border:1px dashed var(--muted);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;}
-    [data-theme="dark"] .news-media{background:#0d0d0d;}
-
-    /* --- Timeline --- */
-    .timeline{
-      position:relative;
-      margin:10px 0 30px;
-      padding:20px 0;
-    }
-    .timeline::before{
-      content:"";
-      position:absolute;
-      top:0; bottom:0;
-      left:50%;
-      width:2px;
-      background:#000;            /* black spine */
-      transform:translateX(-50%);
-    }
-    .tl-item{
-      position:relative;
-      width:50%;
-      padding:12px 24px;
-      box-sizing:border-box;
-    }
-    .tl-item.left{ left:0; text-align:right; }
-    .tl-item.right{ left:50%; text-align:left; }
-
-    .tl-card{
-      display:inline-block;
-      max-width:360px;
-      border:1px solid var(--fg);
-      background:var(--bg);
-      border-radius:10px;
-      padding:10px 12px;
-    }
-    .tl-date{
-      font-size:12.5px;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-    .tl-title{
-      font-weight:700;
-      margin:0 0 4px;
-    }
-    .tl-meta{
-      font-size:14.5px;
-      color:var(--muted);
-    }
-    /* square markers */
-    .tl-dot{
-      position:absolute;
-      top:18px;
-      left:50%;
-      width:12px; height:12px;
-      background:#000;            /* black square */
-      transform:translate(-50%, -50%) rotate(0deg);
-    }
-    /* card offsets */
-    .tl-item.left .tl-card{ margin-right:18px; }
-    .tl-item.right .tl-card{ margin-left:18px; }
-
-    @media (max-width: 780px){
-      .timeline::before{ left:10px; transform:none; }
-      .tl-item{ width:100%; left:0; text-align:left; padding-left:34px; }
-      .tl-item.left .tl-card,
-      .tl-item.right .tl-card{ margin:0 0 0 12px; max-width:520px; }
-      .tl-dot{ left:10px; }
+    /* Timeline (theme-aware) */
+    .timeline{position:relative;margin:10px 0 30px;padding:20px 0;}
+    .timeline::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--fg);transform:translateX(-50%);}
+    .tl-item{position:relative;width:50%;padding:12px 24px;box-sizing:border-box;}
+    .tl-item.left{left:0;text-align:right;}
+    .tl-item.right{left:50%;text-align:left;}
+    .tl-card{display:inline-block;max-width:360px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;}
+    .tl-date{font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+    .tl-title{font-weight:700;margin:0 0 4px;}
+    .tl-meta{font-size:14.5px;color:var(--muted);}
+    .tl-dot{position:absolute;top:18px;left:50%;width:12px;height:12px;background:var(--fg);transform:translate(-50%, -50%);}
+    .tl-item.left .tl-card{margin-right:18px;}
+    .tl-item.right .tl-card{margin-left:18px;}
+    @media (max-width:780px){
+      .timeline::before{left:10px;transform:none;}
+      .tl-item{width:100%;left:0;text-align:left;padding-left:34px;}
+      .tl-item.left .tl-card,.tl-item.right .tl-card{margin:0 0 0 12px;max-width:520px;}
+      .tl-dot{left:10px;}
     }
 
-    /* PROJECTS (half-size; image separate; scrollable backs) */
+    /* PROJECTS */
     .projects-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px;}
     @media(min-width:780px){.projects-grid{grid-template-columns:1fr 1fr;}}
     .project-card{border:1px solid var(--line);border-radius:12px;perspective:1000px;overflow:hidden;}
     .card-inner{position:relative;transform-style:preserve-3d;transition:transform .6s;min-height:160px;}
     .project-card.is-flipped .card-inner{transform:rotateY(180deg);}
-    .card-face{
-      position:absolute;inset:0;display:grid;gap:10px;padding:12px 12px 14px 12px;
-      backface-visibility:hidden;overflow:auto;max-height:60vh;
-    }
+    .card-face{position:absolute;inset:0;display:grid;gap:10px;padding:12px 12px 14px 12px;backface-visibility:hidden;overflow:auto;max-height:60vh;}
     .card-front{background:var(--bg);}
     .card-back{background:var(--bg);transform:rotateY(180deg);}
-
     .proj-media{border:1px solid var(--line);border-radius:10px;overflow:hidden;width:100%;aspect-ratio:16/9;}
     .proj-media img{width:100%;height:100%;object-fit:cover;display:block;}
     .proj-title{font-weight:700;}
-
-    /* Square keywords on project cards only */
     .proj-tags{display:flex;flex-wrap:wrap;gap:6px 8px;}
-    .proj-tags .pill{
-      border-radius:0;background:#000;color:#fff;border-color:#000;padding:6px 10px;
-    }
-
+    .proj-tags .pill{border-radius:0;background:var(--fg);color:var(--bg);border-color:var(--fg);padding:6px 10px;}
     .flip-hint{font-size:12px;color:var(--muted);}
     .card-back .proj-back{display:grid;gap:10px;}
     .flip-back{justify-self:start;border:1px solid var(--fg);background:transparent;color:inherit;border-radius:999px;font-size:13px;padding:6px 10px;text-decoration:none;}
@@ -217,6 +161,9 @@
     .stagger.show > *:nth-child(4){transition-delay:.26s}
     .stagger.show > *:nth-child(5){transition-delay:.33s}
     .stagger.show > *:nth-child(6){transition-delay:.40s}
+
+    /* About affiliation line: larger font, no extra space */
+    .about-affil{font-size:16.5px; margin:0;}
   </style>
 </head>
 <body>
@@ -237,6 +184,7 @@
       <nav class="hero-nav" aria-label="Primary sections">
         <a href="#about">About</a>
         <a href="#research">Research</a>
+        <a href="#education">Education</a>
         <a href="#cv">CV</a>
         <a href="#news">News & Awards</a>
         <a href="#contact">Contact</a>
@@ -250,10 +198,16 @@
   <div class="content">
     <!-- 1) ABOUT -->
     <section id="about" class="reveal" aria-labelledby="about-h">
-      <h2 id="about-h">About <img src="ey.png" alt="EY icon" class="icon-ey"></h2>
+      <h2 id="about-h">
+        About
+        <!-- Light-mode icon -->
+        <img src="ey.png" alt="EY icon" class="icon-ey light">
+        <!-- Dark-mode icon -->
+        <img src="eyb.png" alt="EY dark icon" class="icon-ey dark">
+      </h2>
       <p>I study how humans represent, remember, and navigate space across real and virtual environments. My work bridges
         <span class="pill">spatial cognition</span><span class="pill">aging</span><span class="pill">VR</span><span class="pill">human-centered design</span> with mixed-methods: behavioral tasks, immersive VR, and qualitative interviews.</p>
-      <p class="meta">Department of Psychology, University of Florida · Behavioral & Cognitive Neuroscience (Ph.D. candidate).</p>
+      <p class="about-affil">Department of Psychology, University of Florida · Behavioral & Cognitive Neuroscience (Ph.D. candidate).</p>
     </section>
 
     <!-- 2) RESEARCH -->
@@ -395,6 +349,29 @@
       <!-- /PROJECTS -->
     </section>
 
+    <!-- EDUCATION -->
+    <section id="education" class="reveal" aria-labelledby="edu-h">
+      <h2 id="edu-h">Education</h2>
+      <ul class="list stagger">
+        <li>
+          <div class="item-title">Ph.D. (in progress) — Behavioral & Cognitive Neuroscience</div>
+          <div class="meta">University of Florida · Spatial Cognition & Navigational Neuroscience Lab (Advisor: Steven M. Weisberg)</div>
+        </li>
+        <li>
+          <div class="item-title">M.S. — Psychology</div>
+          <div class="meta">University of Florida · Thesis: <a href="https://ufdc.ufl.edu/UFE0061175/00001/citation" target="_blank" rel="noopener">Navigating the Metaverse: the Relation between Scale and Expertise in Spatial Knowledge of Immersive and Desktop Virtual Reality</a></div>
+        </li>
+        <li>
+          <div class="item-title">B.S. — Psychology</div>
+          <div class="meta">TOBB University of Economics and Technology, Ankara, Turkey</div>
+        </li>
+        <li>
+          <div class="item-title">B.Arch — Architecture</div>
+          <div class="meta">TOBB University of Economics and Technology, Ankara, Turkey (Merit-based scholarship)</div>
+        </li>
+      </ul>
+    </section>
+
     <!-- 3) CV -->
     <section id="cv" class="reveal" aria-labelledby="cv-h">
       <h2 id="cv-h">CV</h2>
@@ -459,7 +436,10 @@
             <ul class="list">
               <li><div class="item-title">Design-forward</div><div class="meta">I love well-designed things. Minimalist & modern architecture speaks to me. Black is my favorite color.</div></li>
               <li><div class="item-title">My companion for life</div><div class="meta">My purr-fect tuxedo cat, Nova Bean (he's a super Velcro cat, loves human attention more than food!).</div></li>
-              <li><div class="item-title">Photography</div><div class="meta">I shoot clean lines, light, and quiet textures.</div></li>
+              <li>
+                <div class="item-title">Photography</div>
+                <div class="meta">High-contrast, black-and-white frames—clean lines, light, and quiet textures.</div>
+              </li>
             </ul>
 
             <h3>Currently</h3>
@@ -472,14 +452,22 @@
           <div>
             <h3>Values</h3>
             <ul class="list">
-              <li><div class="item-title">Teamwork & Impact</div><div class="meta">I care about work that changes how we navigate—ideas, places, and people.</div></li>
-              <li><div class="item-title">Open & Ethical Science</div><div class="meta">Transparency, reproducibility, and participant-first practices guide my research.</div></li>
+              <li>
+                <div class="item-title">Teamwork & Impact</div>
+                <div class="meta">I aim to create human-centered impact—on people, research practices, learning spaces, and navigation-friendly design. From mentoring students to shaping studies and built environments, I care about work that improves how people learn, orient, and move with confidence.</div>
+              </li>
             </ul>
 
             <h3>Fun Facts</h3>
             <ul class="list">
-              <li><div class="item-title">Mentor</div><div class="meta">I host a YouTube series for students in Türkiye considering PhDs in the US; I’ve mentored 10+ students so far.</div></li>
-              <li><div class="item-title">Name hack</div><div class="meta">If you’re wondering how to say my name, my Starbucks name is <em>AJ</em>—at this point I answer to both 😊</div></li>
+              <li>
+                <div class="item-title">Mentor</div>
+                <div class="meta">I run a YouTube channel for students in Türkiye considering PhDs in the US; I’ve mentored 10+ students so far.</div>
+              </li>
+              <li>
+                <div class="item-title">Name hack</div>
+                <div class="meta">If you’re wondering how to say my name, my Starbucks name is <em>AJ</em>—at this point I answer to both.</div>
+              </li>
             </ul>
           </div>
         </div>
@@ -531,6 +519,7 @@
       <nav class="footer-links" aria-label="Section links">
         <a href="#about">About</a>
         <a href="#research">Research</a>
+        <a href="#education">Education</a>
         <a href="#cv">CV</a>
         <a href="#news">News & Awards</a>
         <a href="#personal">Personal</a>
@@ -569,7 +558,7 @@
     const STORAGE_KEY = 'theme';
     function applyTheme(t){
       root.setAttribute('data-theme', t);
-      toggle.textContent = (t === 'dark' ? '☀️' : '🌙');
+      toggle.textContent = (t === 'dark' ? '🔆' : '🕶️');
       toggle.setAttribute('aria-pressed', t === 'dark');
     }
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -605,13 +594,12 @@
       spacer.style.height = shouldStick ? (heroButtons.offsetHeight + 'px') : '0px';
     }
 
-    // ---- Projects: flip + dynamic sizing (half-size, scrollable) ----
+    // Projects: flip + dynamic sizing
     function sizeCard(card){
       const inner = card.querySelector('.card-inner');
       const front = card.querySelector('.card-front');
       const back  = card.querySelector('.card-back');
       if(!inner) return;
-
       const maxH = Math.floor(window.innerHeight * 0.60);
       const minH = 180;
       const targetFront = front ? front.scrollHeight + 1 : 0;
@@ -623,7 +611,6 @@
     function initProjects(){
       document.querySelectorAll('[data-card], [data-no-flip]').forEach(card=>{
         const noFlip = card.hasAttribute('data-no-flip');
-
         if(!noFlip){
           card.addEventListener('click', e=>{
             if(e.target.closest('.flip-back')) return;
@@ -638,17 +625,34 @@
       });
     }
 
-    // Photography rotator (1.jpg .. 10.jpg)
+    // Robust photography rotator: tries multiple extensions, skips missing files
     (function initPhotoRotator(){
       const img = document.getElementById('photoRotatorImg');
       if(!img) return;
-      const total = 10;
-      const ext = '.jpg';
-      let i = 1;
-      setInterval(()=>{
-        i = (i % total) + 1;
-        img.src = i + ext;
-      }, 3000);
+
+      const total = 10; // change if you have fewer/more images
+      const exts = ['.jpg','.jpeg','.png','.JPG','.JPEG','.PNG'];
+      let n = 1;
+
+      function tryLoad(num, extIndex=0){
+        if(extIndex >= exts.length){
+          // Nothing worked for this number — skip to next
+          next();
+          return;
+        }
+        const src = `${num}${exts[extIndex]}`;
+        img.onerror = () => tryLoad(num, extIndex+1);
+        img.onload  = () => {}; // clear error chain once loaded
+        img.src = src;
+      }
+
+      function next(){
+        n = (n % total) + 1;
+        tryLoad(n, 0);
+      }
+
+      tryLoad(n, 0);
+      setInterval(next, 3000);
     })();
 
     function onResize(){
