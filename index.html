@@ -13,7 +13,6 @@
     html,body{margin:0;padding:0;height:100%;scroll-behavior:smooth;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,-apple-system,system-ui,"Segoe UI",Roboto,Arial,"Noto Sans";overflow-x:hidden;transition:background .4s ease,color .4s ease;}
     a{color:inherit;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.08em;}
 
-    /* HERO */
     .hero{position:relative;width:100%;height:100vh;background:url('22.jpg') center/cover no-repeat;filter:grayscale(100%);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:filter .4s ease;}
     [data-theme="dark"] .hero{filter:grayscale(100%) brightness(0.6);}
     .hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:1;}
@@ -23,7 +22,6 @@
     @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
     @keyframes blink{50%{border-color:transparent;}}
 
-    /* CONTENT */
     .content{position:relative;z-index:3;padding:50px 20px;max-width:var(--maxw);margin:0 auto;}
     section{margin-bottom:80px;border-top:1px solid var(--line);padding-top:30px;}
     section h2{text-transform:uppercase;font-size:14px;letter-spacing:.18em;margin:0 0 14px;color:var(--muted);}
@@ -35,11 +33,9 @@
     .meta{color:var(--muted);font-size:14.5px;}
     .pill{display:inline-block;border:1px solid var(--fg);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--fg);margin-right:6px;}
 
-    /* BUTTON */
     .theme-toggle{position:fixed;top:20px;right:20px;border:1px solid var(--fg);background:transparent;color:var(--fg);border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;z-index:1000;transition:background .3s ease,color .3s ease;}
     .theme-toggle:hover{background:var(--fg);color:var(--bg);}
 
-    /* SCROLL REVEAL */
     .reveal{opacity:0;transform:translateY(18px);} 
     .reveal.show{opacity:1;transform:none;transition:opacity .7s ease, transform .7s ease;} 
     .stagger > *{opacity:0;transform:translateY(18px);} 
@@ -51,19 +47,10 @@
     .stagger.show > *:nth-child(4){transition-delay:.26s}
     .stagger.show > *:nth-child(5){transition-delay:.33s}
     .stagger.show > *:nth-child(6){transition-delay:.40s}
-
-    @media (prefers-reduced-motion: reduce){
-      .hero-content{animation:none}
-      .reveal, .stagger > *{opacity:1 !important; transform:none !important; transition:none !important;}
-      html{scroll-behavior:auto}
-    }
   </style>
 </head>
 <body>
-  <!-- DARK MODE TOGGLE -->
   <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-pressed="false">🌙</button>
-
-  <!-- HERO with name + animated titles -->
   <div class="hero">
     <div class="hero-content">
       <h1>Ece Yüksel</h1>
@@ -71,7 +58,6 @@
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
   <div class="content">
     <section id="about" class="reveal" aria-labelledby="about-h">
       <h2 id="about-h">About</h2>
@@ -99,7 +85,7 @@
       <h2 id="edu-h">Education</h2>
       <ul class="list stagger">
         <li><div class="item-title">Ph.D. (in progress) — Behavioral & Cognitive Neuroscience</div><div class="meta">University of Florida · Spatial Cognition & Navigational Neuroscience Lab (Advisor: Steven M. Weisberg)</div></li>
-        <li><div class="item-title">M.S. — Psychology</div><div class="meta">TOBB University of Economics and Technology, Ankara, Turkey</div></li>
+        <li><div class="item-title">M.S. — Psychology</div><div class="meta">TOBB University of Economics and Technology, Ankara, Turkey · Thesis: <a href="YOUR_THESIS_LINK_HERE" target="_blank">View Master's Thesis</a></div></li>
         <li><div class="item-title">B.Arch — Architecture</div><div class="meta">TOBB University of Economics and Technology, Ankara, Turkey (Merit-based scholarship)</div></li>
       </ul>
     </section>
@@ -109,7 +95,6 @@
       <ul class="list stagger">
         <li><div class="item-title">Ph.D. Candidate</div><div class="meta">2024–present · University of Florida — Mixed-methods dissertation on age differences in navigation across immersive & desktop VR.</div></li>
         <li><div class="item-title">Research Assistant</div><div class="meta">2020–2022 · Perception & Action Dynamics Lab.</div></li>
-        <li><div class="item-title">Architectural/Design roles</div><div class="meta">Visual design, marketing coordination, and social media management across committees (selected).</div></li>
       </ul>
     </section>
 
@@ -131,19 +116,10 @@
       </ul>
     </section>
 
-    <section id="talks" class="reveal" aria-labelledby="talks-h">
-      <h2 id="talks-h">Talks & Conference Presentations</h2>
-      <ul class="list stagger">
-        <li><div class="item-title">Beyond one-size-fits-all: Tailoring navigation support</div><div class="meta">Navigation News (Royal Institute of Navigation), 2025 — science communication piece.</div></li>
-        <li><div class="item-title">Age differences in spatial navigation across real & virtual worlds</div><div class="meta">ANFA Conference (2025, poster); CRaNECon25 (2025, poster).</div></li>
-        <li><div class="item-title">Global directional cues in immersive VR</div><div class="meta">Psychonomic Society (2023–2024, posters); Florida CNC Data Blitz (2022, talk).</div></li>
-      </ul>
-    </section>
-
     <section id="awards" class="reveal" aria-labelledby="awards-h">
       <h2 id="awards-h">Selected Awards</h2>
       <ul class="list stagger">
-        <li><div class="item-title">Jacqueline Goldman Spring Scholarship</div><div class="meta">2023</div></li>
+        <li><div class="item-title">Jacqueline Goldman Spring Scholarship</div><div class="meta">2024, 2025</div></li>
         <li><div class="item-title">Psychonomic Society Graduate Conference Awards</div><div class="meta">2023, 2025</div></li>
         <li><div class="item-title">UF Graduate Student Travel Awards</div><div class="meta">2023, 2024, 2025</div></li>
         <li><div class="item-title">Certificate of Outstanding Merit</div><div class="meta">UF International Student Achievement Awards (2022)</div></li>
@@ -193,53 +169,31 @@
   </footer>
 
   <script>
-    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Title typewriter (for hero titles under your name)
     const titleElement = document.getElementById('titles');
     const titleWords = ['Architect', 'Cognitive Psychologist', 'Ph.D. Candidate'];
     (function typeLoop(element, words){
       let i = 0, j = 0, deleting = false;
       (function loop(){
         const word = words[i];
-        if(!deleting){
-          element.textContent = word.substring(0, j++);
-          if(j > word.length + 5){ deleting = true; }
-        } else {
-          element.textContent = word.substring(0, j--);
-          if(j < 0){ deleting = false; i = (i + 1) % words.length; }
-        }
+        if(!deleting){element.textContent = word.substring(0, j++);if(j > word.length + 5){deleting = true;}}
+        else{element.textContent = word.substring(0, j--);if(j < 0){deleting = false;i = (i + 1) % words.length;}}
         setTimeout(loop, deleting ? 60 : 120);
       })();
     })(titleElement, titleWords);
 
-    // Scroll reveal (sections fade/slide into view)
     const revealers = [...document.querySelectorAll('.reveal'), ...document.querySelectorAll('.stagger')];
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
-      });
-    }, { threshold: .12 });
+    const io = new IntersectionObserver(entries => {entries.forEach(e => {if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target);}});}, {threshold: .12});
     revealers.forEach(el => io.observe(el));
 
-    // Dark mode toggle (with memory)
     const toggle = document.getElementById('themeToggle');
     const root = document.documentElement;
     const STORAGE_KEY = 'theme';
-    function applyTheme(t){
-      root.setAttribute('data-theme', t);
-      toggle.textContent = (t === 'dark' ? '☀️' : '🌙');
-      toggle.setAttribute('aria-pressed', t === 'dark');
-    }
+    function applyTheme(t){root.setAttribute('data-theme', t);toggle.textContent = (t === 'dark' ? '☀️' : '🌙');toggle.setAttribute('aria-pressed', t === 'dark');}
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     let theme = localStorage.getItem(STORAGE_KEY) || (prefersDark ? 'dark' : 'light');
     applyTheme(theme);
-    toggle.addEventListener('click', () => {
-      theme = (theme === 'dark' ? 'light' : 'dark');
-      localStorage.setItem(STORAGE_KEY, theme);
-      applyTheme(theme);
-    });
+    toggle.addEventListener('click', () => {theme = (theme === 'dark' ? 'light' : 'dark');localStorage.setItem(STORAGE_KEY, theme);applyTheme(theme);});
   </script>
 </body>
 </html>
