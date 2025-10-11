@@ -85,7 +85,7 @@
   <script>
     document.getElementById('y').textContent=new Date().getFullYear();
     const root=document.documentElement;const btn=document.getElementById('themeBtn');const PREF_KEY='theme';
-    function applyTheme(t){root.setAttribute('data-theme',t);btn.textContent=(t==='dark'?'☀️':'🌙');btn.setAttribute('aria-pressed',t==='dark');}
+    function applyTheme(t){root.setAttribute('data-theme',t);btn.textContent=(t==='dark'?'🌟':'🌙');btn.setAttribute('aria-pressed',t==='dark');}
     const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
     let current=localStorage.getItem(PREF_KEY)||(prefersDark?'dark':'light');applyTheme(current);
     btn.addEventListener('click',()=>{current=(current==='dark'?'light':'dark');localStorage.setItem(PREF_KEY,current);applyTheme(current);});
