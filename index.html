@@ -7,24 +7,63 @@
   <meta name="description" content="Ece Yüksel — Ph.D. candidate researching spatial navigation, aging, and human-centered design. Academic black-and-white site with scroll animations and dark mode." />
   <link rel="icon" href="ey.png" type="image/png" />
   <style>
-    :root{--bg:#ffffff;--fg:#000000;--muted:#222222;--line:rgba(0,0,0,.12);--accent:#000000;--maxw:860px;}
-    [data-theme="dark"]{--bg:#000000;--fg:#ffffff;--muted:#d0d0d0;--line:rgba(255,255,255,.18);--accent:#ffffff;}
+    :root{
+      --bg:#ffffff; --fg:#000000; --muted:#222222;
+      --line:#000000; --accent:#000000; --maxw:860px;
+      --pb-w:10px;
+    }
+    [data-theme="dark"]{
+      --bg:#000000; --fg:#ffffff; --muted:#d0d0d0;
+      --line:#000000; --accent:#ffffff;
+    }
 
     html,body{margin:0;padding:0;height:100%;scroll-behavior:smooth;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,-apple-system,system-ui,"Segoe UI",Roboto,Arial,"Noto Sans";overflow-x:hidden;transition:background .4s ease,color .4s ease;}
     a{color:inherit;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.08em;}
 
-    .hero{position:relative;width:100%;height:100vh;background:url('22.jpg') center/cover no-repeat;filter:grayscale(100%);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:filter .4s ease;}
+    /* LEFT SCROLL PROGRESS BAR */
+    .progress-track{position:fixed;inset:0 auto 0 0;width:var(--pb-w);background:transparent;border:1px solid #000;border-left:none;box-sizing:border-box;z-index:9999}
+    .progress-bar{position:absolute;left:0;top:0;width:100%;height:0%;background:#000;transition:height .12s linear;}
+
+    /* HERO */
+    .hero{position:relative;width:100%;height:100vh;background:url('22.jpg') center/cover no-repeat;filter:grayscale(100%);display:flex;justify-content:center;align-items:center;text-align:center;transition:filter .4s ease;}
     [data-theme="dark"] .hero{filter:grayscale(100%) brightness(0.6);}
     .hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:1;}
-    .hero-content{position:relative;z-index:2;animation:fadeIn 1.6s ease forwards;}
-    .hero h1{background:#000;color:#fff;padding:0.3em 0.6em;font-size:clamp(42px,6vw,72px);margin:0;letter-spacing:-0.015em;display:inline-block;}
-    .typewriter{font-size:20px;margin-top:10px;color:#fff;height:1.5em;white-space:nowrap;overflow:hidden;border-right:2px solid #fff;animation:blink .8s infinite;}
+    .hero-content{position:relative;z-index:2;animation:fadeIn 1.6s ease forwards;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:var(--maxw);padding:0 20px;}
+    .hero h1{background:#000;color:#fff;padding:0.3em 0.6em;font-size:clamp(46px,7vw,88px);margin:0;letter-spacing:-0.015em;display:inline-block;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-    @keyframes blink{50%{border-color:transparent;}}
 
+    /* TYPEWRITER */
+    .typewriter{display:block;position:relative;font-size:20px;line-height:1.2;color:#fff;white-space:nowrap;overflow:hidden;height:1.5em;}
+    .typewriter::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2px;background:#fff;animation:blink .8s steps(1) infinite;}
+    @keyframes blink{50%{opacity:0;}}
+
+    /* HERO buttons: square, black fill, white text (sticky keeps look) */
+    .hero-bottom{position:absolute;left:0;right:0;bottom:28px;display:flex;justify-content:center;z-index:2;}
+    .hero-nav{display:flex;flex-wrap:wrap;gap:10px 12px;justify-content:center;padding:0 20px;}
+    .hero-nav a{
+      text-decoration:none;border:1px solid #000;background:#000;color:#fff;
+      padding:8px 12px;border-radius:0;font-size:14px;line-height:1;
+      transition:background .2s ease, transform .12s ease, outline-color .2s ease;will-change:transform;
+    }
+    .hero-nav a:hover{background:#111;color:#fff;transform:translateY(-2px);}
+    .hero-nav a:focus{outline:2px solid #fff;outline-offset:2px;}
+    .hero-bottom.is-sticky{
+      position:fixed;top:0;bottom:auto;left:0;right:0;background:var(--bg);
+      border-bottom:1px solid var(--line);padding:10px 0;z-index:10020;
+    }
+    .hero-bottom.is-sticky .hero-nav a{border-color:#000;background:#000;color:#fff;}
+    .hero-bottom.is-sticky .hero-nav a:focus{outline-color:#000;}
+
+    /* CONTENT */
     .content{position:relative;z-index:3;padding:50px 20px;max-width:var(--maxw);margin:0 auto;}
     section{margin-bottom:80px;border-top:1px solid var(--line);padding-top:30px;}
-    section h2{text-transform:uppercase;font-size:14px;letter-spacing:.18em;margin:0 0 14px;color:var(--muted);}
+    section h2{text-transform:uppercase;font-size:clamp(20px,2.2vw,26px);letter-spacing:.18em;font-weight:700;margin:0 0 14px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .icon-ey{width:24px;height:24px;object-fit:contain;vertical-align:middle;display:inline-block;}
+
+    /* Subheadings (more space between h3 blocks) */
+    h3{font-size:18px;margin:36px 0 14px;font-weight:700;}
+    section h3:first-of-type{margin-top:8px;}
+    .list + h3, .grid-2 + h3, .projects-grid + h3, .news-grid + h3{margin-top:42px;}
 
     .list{list-style:none;margin:0;padding:0;display:grid;gap:12px;}
     .grid-2{display:grid;gap:14px 24px;grid-template-columns:1fr;}
@@ -33,14 +72,145 @@
     .meta{color:var(--muted);font-size:14.5px;}
     .pill{display:inline-block;border:1px solid var(--fg);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--fg);margin-right:6px;}
 
-    .theme-toggle{position:fixed;top:20px;right:20px;border:1px solid var(--fg);background:transparent;color:var(--fg);border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;z-index:1000;transition:background .3s ease,color .3s ease;}
+    .theme-toggle{position:fixed;top:20px;right:20px;border:1px solid var(--fg);background:transparent;color:var(--fg);border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;z-index:10000;transition:background .3s ease,color .3s ease;}
     .theme-toggle:hover{background:var(--fg);color:var(--bg);}
 
-    .reveal{opacity:0;transform:translateY(18px);} 
-    .reveal.show{opacity:1;transform:none;transition:opacity .7s ease, transform .7s ease;} 
-    .stagger > *{opacity:0;transform:translateY(18px);} 
-    .stagger.show > *{opacity:1;transform:none;} 
-    .stagger.show > *{transition:opacity .65s ease, transform .65s ease;} 
+    /* CV button */
+    .cv-btn{
+      display:inline-block;margin-top:8px;background:var(--bg);color:var(--fg);
+      border:1px solid var(--fg);border-radius:999px;padding:12px 18px;font-size:15px;text-decoration:none;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);transition:transform .12s ease, background .2s ease, color .2s ease;
+    }
+    .cv-btn:hover{transform:translateY(-2px);background:var(--fg);color:var(--bg);}
+    .cv-btn:focus{outline:2px solid var(--fg);outline-offset:2px;}
+
+    /* News grid (kept for compatibility, not used for timeline) */
+    .news-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+    @media(min-width:780px){.news-grid{grid-template-columns:1fr 1fr;}}
+    .news-card{border:1px solid var(--line);padding:12px;border-radius:12px;display:grid;gap:10px;}
+    .news-media{width:100%;aspect-ratio:16/9;background:#f0f0f0;border:1px dashed var(--muted);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;}
+    [data-theme="dark"] .news-media{background:#0d0d0d;}
+
+    /* --- Timeline --- */
+    .timeline{
+      position:relative;
+      margin:10px 0 30px;
+      padding:20px 0;
+    }
+    .timeline::before{
+      content:"";
+      position:absolute;
+      top:0; bottom:0;
+      left:50%;
+      width:2px;
+      background:#000;            /* black spine */
+      transform:translateX(-50%);
+    }
+    .tl-item{
+      position:relative;
+      width:50%;
+      padding:12px 24px;
+      box-sizing:border-box;
+    }
+    .tl-item.left{ left:0; text-align:right; }
+    .tl-item.right{ left:50%; text-align:left; }
+
+    .tl-card{
+      display:inline-block;
+      max-width:360px;
+      border:1px solid var(--fg);
+      background:var(--bg);
+      border-radius:10px;
+      padding:10px 12px;
+    }
+    .tl-date{
+      font-size:12.5px;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .tl-title{
+      font-weight:700;
+      margin:0 0 4px;
+    }
+    .tl-meta{
+      font-size:14.5px;
+      color:var(--muted);
+    }
+    /* square markers */
+    .tl-dot{
+      position:absolute;
+      top:18px;
+      left:50%;
+      width:12px; height:12px;
+      background:#000;            /* black square */
+      transform:translate(-50%, -50%) rotate(0deg);
+    }
+    /* card offsets */
+    .tl-item.left .tl-card{ margin-right:18px; }
+    .tl-item.right .tl-card{ margin-left:18px; }
+
+    @media (max-width: 780px){
+      .timeline::before{ left:10px; transform:none; }
+      .tl-item{ width:100%; left:0; text-align:left; padding-left:34px; }
+      .tl-item.left .tl-card,
+      .tl-item.right .tl-card{ margin:0 0 0 12px; max-width:520px; }
+      .tl-dot{ left:10px; }
+    }
+
+    /* PROJECTS (half-size; image separate; scrollable backs) */
+    .projects-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px;}
+    @media(min-width:780px){.projects-grid{grid-template-columns:1fr 1fr;}}
+    .project-card{border:1px solid var(--line);border-radius:12px;perspective:1000px;overflow:hidden;}
+    .card-inner{position:relative;transform-style:preserve-3d;transition:transform .6s;min-height:160px;}
+    .project-card.is-flipped .card-inner{transform:rotateY(180deg);}
+    .card-face{
+      position:absolute;inset:0;display:grid;gap:10px;padding:12px 12px 14px 12px;
+      backface-visibility:hidden;overflow:auto;max-height:60vh;
+    }
+    .card-front{background:var(--bg);}
+    .card-back{background:var(--bg);transform:rotateY(180deg);}
+
+    .proj-media{border:1px solid var(--line);border-radius:10px;overflow:hidden;width:100%;aspect-ratio:16/9;}
+    .proj-media img{width:100%;height:100%;object-fit:cover;display:block;}
+    .proj-title{font-weight:700;}
+
+    /* Square keywords on project cards only */
+    .proj-tags{display:flex;flex-wrap:wrap;gap:6px 8px;}
+    .proj-tags .pill{
+      border-radius:0;background:#000;color:#fff;border-color:#000;padding:6px 10px;
+    }
+
+    .flip-hint{font-size:12px;color:var(--muted);}
+    .card-back .proj-back{display:grid;gap:10px;}
+    .flip-back{justify-self:start;border:1px solid var(--fg);background:transparent;color:inherit;border-radius:999px;font-size:13px;padding:6px 10px;text-decoration:none;}
+    .flip-back:hover{background:var(--fg);color:var(--bg);}
+
+    /* PERSONAL */
+    .personal{display:grid;gap:14px;}
+    .personal p{margin:0;}
+    .personal-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+    @media(min-width:780px){.personal-grid{grid-template-columns:1fr 1fr;}}
+
+    /* Contact */
+    .contact-list{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;}
+    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:6px;}
+    .contact-link{text-decoration:none;border-bottom:1px solid var(--fg);padding-bottom:1px;}
+    .contact-link:hover{opacity:.8;}
+
+    /* Footer links */
+    .footwrap{max-width:var(--maxw);margin:0 auto;display:flex;flex-direction:column;gap:10px;}
+    .footer-links{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:10px;font-size:14px;}
+    .footer-links a{text-decoration:none;border-bottom:1px solid var(--fg);padding-bottom:1px;}
+    .footer-links a:hover{opacity:.7;}
+
+    /* Reveal animations */
+    .reveal{opacity:0;transform:translateY(18px);}
+    .reveal.show{opacity:1;transform:none;transition:opacity .7s ease, transform .7s ease;}
+    .stagger > *{opacity:0;transform:translateY(18px);}
+    .stagger.show > *{opacity:1;transform:none;}
+    .stagger.show > *{transition:opacity .65s ease, transform .65s ease;}
     .stagger.show > *:nth-child(1){transition-delay:.05s}
     .stagger.show > *:nth-child(2){transition-delay:.12s}
     .stagger.show > *:nth-child(3){transition-delay:.19s}
@@ -50,25 +220,47 @@
   </style>
 </head>
 <body>
+  <!-- Left progress bar -->
+  <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+
   <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-pressed="false">🌙</button>
-  <div class="hero">
+
+  <!-- HERO -->
+  <div class="hero" id="hero">
     <div class="hero-content">
       <h1>Ece Yüksel</h1>
-      <div id="titles" class="typewriter" aria-live="polite"></div>
+      <div class="typewriter" aria-live="polite"><span id="tw"></span></div>
+    </div>
+
+    <!-- Buttons aligned with the end of the picture (bottom of hero) -->
+    <div class="hero-bottom" id="heroButtons">
+      <nav class="hero-nav" aria-label="Primary sections">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#cv">CV</a>
+        <a href="#news">News & Awards</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
   </div>
 
+  <!-- Spacer to avoid content jump when sticky -->
+  <div id="stickySpacer" aria-hidden="true"></div>
+
   <div class="content">
+    <!-- 1) ABOUT -->
     <section id="about" class="reveal" aria-labelledby="about-h">
-      <h2 id="about-h">About</h2>
+      <h2 id="about-h">About <img src="ey.png" alt="EY icon" class="icon-ey"></h2>
       <p>I study how humans represent, remember, and navigate space across real and virtual environments. My work bridges
         <span class="pill">spatial cognition</span><span class="pill">aging</span><span class="pill">VR</span><span class="pill">human-centered design</span> with mixed-methods: behavioral tasks, immersive VR, and qualitative interviews.</p>
-      <p class="meta">Department of Psychology, University of Florida · Behavioral & Cognitive Neuroscience (Ph.D. candidate). 
-        <a href="yuksel_CV.pdf" aria-label="Download my CV (PDF)">CV (PDF)</a></p>
+      <p class="meta">Department of Psychology, University of Florida · Behavioral & Cognitive Neuroscience (Ph.D. candidate).</p>
     </section>
 
+    <!-- 2) RESEARCH -->
     <section id="research" class="reveal" aria-labelledby="research-h">
-      <h2 id="research-h">Research Interests</h2>
+      <h2 id="research-h">Research</h2>
+
+      <h3>Research Interests</h3>
       <div class="grid-2 stagger">
         <ul class="list">
           <li><div class="item-title">Spatial cognition across the lifespan</div><div class="meta">Age-related differences in spatial memory and wayfinding strategies.</div></li>
@@ -79,28 +271,8 @@
           <li><div class="item-title">Methods</div><div class="meta">Mixed-methods (behavioral + qualitative), Virtual Silcton, SBSOD, task design.</div></li>
         </ul>
       </div>
-    </section>
 
-    <section id="education" class="reveal" aria-labelledby="edu-h">
-      <h2 id="edu-h">Education</h2>
-      <ul class="list stagger">
-        <li><div class="item-title">Ph.D. (in progress) — Behavioral & Cognitive Neuroscience</div><div class="meta">University of Florida · Spatial Cognition & Navigational Neuroscience Lab (Advisor: Steven M. Weisberg)</div></li>
-        <li><div class="item-title">M.S. — Psychology</div><div class="meta">University of Florida · Thesis: <a href="https://ufdc.ufl.edu/UFE0061175/00001/citation" target="_blank">Navigating the Metaverse: the Relation between Scale and Expertise in Spatial Knowledge of Immersive and Desktop Virtual Reality</a></div></li>
-        <li><div class="item-title">B.S. — Psychology</div><div class="meta">TOBB University of Economics and Technology, Ankara, Turkey</div></li>
-        <li><div class="item-title">B.Arch — Architecture</div><div class="meta">TOBB University of Economics and Technology, Ankara, Turkey (Merit-based scholarship)</div></li>
-      </ul>
-    </section>
-
-    <section id="experience" class="reveal" aria-labelledby="exp-h">
-      <h2 id="exp-h">Professional Appointments & Research Experience</h2>
-      <ul class="list stagger">
-        <li><div class="item-title">Ph.D. Candidate</div><div class="meta">2024–present · University of Florida — Mixed-methods dissertation on age differences in navigation across immersive & desktop VR.</div></li>
-        <li><div class="item-title">Research Assistant</div><div class="meta">2020–2022 · Perception & Action Dynamics Lab.</div></li>
-      </ul>
-    </section>
-
-    <section id="publications" class="reveal" aria-labelledby="pubs-h">
-      <h2 id="pubs-h">Publications & Selected Works</h2>
+      <h3>Publications & Selected Works</h3>
       <ul class="list stagger">
         <li>
           <div class="item-title">This is not the way: global directional cues do not improve spatial learning in an immersive virtual environment</div>
@@ -115,10 +287,159 @@
           <div class="meta">Qualifying exam review · under revision</div>
         </li>
       </ul>
+
+      <h3>Future Research Directions</h3>
+      <ul class="list stagger">
+        <li><div class="item-title">Aging & Virtual Reality</div><div class="meta">Investigate how age-related differences influence spatial navigation and memory using VR and mixed-methods.</div></li>
+        <li><div class="item-title">Human-Centered Spatial Design</div><div class="meta">Develop evidence-based principles for navigation-friendly, human-centric spaces.</div></li>
+      </ul>
+
+      <!-- PROJECTS -->
+      <h3>Projects</h3>
+      <div class="projects-grid" id="projects">
+        <!-- PhD Dissertation -->
+        <article class="project-card" data-card id="proj-phd">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <div class="proj-media"><img src="phd.png" alt="PhD dissertation visual"></div>
+              <div class="proj-title">PhD Dissertation: Age differences in spatial navigation across real and virtual worlds: A mixed-methods approach</div>
+              <div class="proj-tags">
+                <span class="pill">Aging</span><span class="pill">Spatial Navigation</span><span class="pill">Virtual Silcton</span>
+                <span class="pill">Mixed-Methods</span><span class="pill">Interviews</span><span class="pill">Desktop VR</span>
+              </div>
+              <div class="flip-hint">Click card for details</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="proj-back">
+                <h4>PhD Dissertation</h4>
+                <p><strong>Abstract.</strong> Navigating and learning new virtual or real-world environments can be challenging for anyone, especially older adults. This study will investigate age-related differences in navigation strategies across both real-world and desktop virtual environments, employing a mixed-methods approach to explore qualitative and quantitative aspects of navigation ability. Participants, including younger adults (18–25) and older adults (55+), will be interviewed about their real-world navigation habits, complete Virtual Silcton on desktop, and talk about their spatial learning strategies during the virtual task. Thematic analysis of interview data (semi-structured interviews) will reveal key differences in wayfinding approaches, while quantitative measures will examine individual differences in navigation performance. By comparing real-world and VR navigation strategies, this study aims to uncover how age and individual differences influence spatial behavior across different modalities. Findings will inform the design of age-inclusive navigation aids and training interventions to support spatial orientation and mobility in aging populations.</p>
+                <ul class="meta">
+                  <li><strong>Status:</strong> In progress</li>
+                  <li><strong>Participants:</strong> Younger (18–25) & Older (55+)</li>
+                  <li><strong>Methods/Keywords:</strong> Mixed-methods, Virtual Silcton, desktop VR, semi-structured interviews, thematic analysis, individual differences, aging</li>
+                </ul>
+                <a href="#" class="flip-back" data-flip-back>↺ Back</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Global directional cues / Compass -->
+        <article class="project-card" data-card id="proj-compass">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <div class="proj-media"><img src="compass.png" alt="Compass cues in immersive VR"></div>
+              <div class="proj-title">This is not the way: Global directional cues do not improve spatial navigation in an immersive virtual environment</div>
+              <div class="proj-tags">
+                <span class="pill">Immersive VR</span><span class="pill">Virtual Silcton</span><span class="pill">Navigation Cues</span><span class="pill">Wayfinding</span>
+              </div>
+              <div class="flip-hint">Click card for details</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="proj-back">
+                <h4>Global Directional Cues in Immersive VR</h4>
+                <p>Navigation tools, like maps, compasses, and GPS devices are common in daily life. But do they help us learn large-scale spaces more easily? Given that self-report data are not fully ecologically valid in spatial cognition studies, we use cutting-edge technology to create more plausible and controlled environments to investigate our spatial abilities.</p>
+                <p>In this line of research, we are investigating how effective navigation tools can be and ways to improve them. For instance, although a compass provides the same sort of directional information as other distant visual cues (like a mountain range to the West), is either actually used to learn an environment more easily?</p>
+                <p>To answer these questions, we are using a virtual reality head-mounted display (HTC Vive) and an omnidirectional treadmill (Virtuix Omni VR) to create an immersive virtual environment (VE). Our participants walk on the treadmill and learn a widely-used virtual environment (Virtual Silcton) with or without various navigational cues. We then test whether they use these cues to aid in learning their surroundings and perform better on tasks that tap their large-scale spatial knowledge. This work will inform future approaches to improve and support spatial navigation behavior across individuals with vastly different spatial navigation abilities.</p>
+                <a href="#" class="flip-back" data-flip-back>↺ Back</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Scale & Expertise across immersive/desktop -->
+        <article class="project-card" data-card id="proj-scale">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <div class="proj-media"><img src="scale.png" alt="Scale and expertise in immersive vs desktop VR"></div>
+              <div class="proj-title">Navigating the Metaverse: The Relation Between Scale And Expertise In Spatial Knowledge Of Immersive And Desktop Virtual Reality</div>
+              <div class="proj-tags">
+                <span class="pill">Immersive VR</span><span class="pill">Desktop VR</span><span class="pill">Video Games</span><span class="pill">Spatial Scale</span>
+              </div>
+              <div class="flip-hint">Click card for details</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="proj-back">
+                <h4>Scale & Expertise in VR Navigation</h4>
+                <p>Throughout evolutionary history, people navigated in real three-dimensional environments. In relatively recent times, desktop virtual reality (VR) and cutting-edge technologies like immersive VR are becoming accessible. Although some studies have shown similarities between real and virtual navigation, our understanding of individual variability in VR spatial knowledge has been limited.</p>
+                <p>Desktop VR research supports that playing video games is associated with cognitive advantages like increased attention, visuospatial abilities, and spatial navigation skills. However, what accounts for video game players' improved spatial navigation ability is unclear.</p>
+                <p>Here, we examine the relationship between video game experience, immersion, and spatial navigation ability. Our central hypothesis is that variations in the mental representation scale of environments account for the navigation performance differences between video game players and non-players. We will use a within-subjects quasi-experimental design, testing video game players and non-players in immersive and desktop VR. Participants will learn large-scale environments and get tested on their spatial knowledge and a new measure allowing inference on the scale of spatial representations. This work will be the first to investigate a mediated relationship between video game play and navigation through mental representation scales and uncover the processes behind the well-studied direct correlations.</p>
+                <a href="#" class="flip-back" data-flip-back>↺ Back</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Review: Lost in (Virtual) Space? -->
+        <article class="project-card" data-card id="proj-quals">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <div class="proj-media"><img src="quals.png" alt="Age differences in real vs virtual navigation review"></div>
+              <div class="proj-title">Lost in (Virtual) Space? Age Differences in Spatial Navigation in Real-World and Virtual Reality</div>
+              <div class="proj-tags">
+                <span class="pill">Aging</span><span class="pill">Review</span><span class="pill">VR vs Real</span><span class="pill">Individual Differences</span>
+              </div>
+              <div class="flip-hint">Click card for details</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="proj-back">
+                <h4>Age Differences in Real vs. Virtual Navigation</h4>
+                <p>For eons, people have navigated through real-world three-dimensional environments. With the advancement of technology, we can simulate three-dimensional navigation in virtual reality (VR). Navigating and learning new virtual or real-world environments can be challenging for anyone, especially older adults. Age-related differences in spatial tasks have been well documented.</p>
+                <p>VR has become a popular tool in the field due to its ability to create well-controlled environments and enhance external validity. However, the extent to which VR can reliably measure navigation abilities and age differences remains unclear. This review will explore the theories behind why these differences might be amplified in some cases and for some people while attenuated in others.</p>
+                <a href="#" class="flip-back" data-flip-back>↺ Back</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <!-- /PROJECTS -->
     </section>
 
-    <section id="awards" class="reveal" aria-labelledby="awards-h">
-      <h2 id="awards-h">Selected Awards</h2>
+    <!-- 3) CV -->
+    <section id="cv" class="reveal" aria-labelledby="cv-h">
+      <h2 id="cv-h">CV</h2>
+      <p class="meta">Full, up-to-date curriculum vitae as PDF.</p>
+      <a class="cv-btn" href="yuksel_CV.pdf" download aria-label="Download my CV (PDF)">Download CV (PDF)</a>
+    </section>
+
+    <!-- 4) NEWS & AWARDS -->
+    <section id="news" class="reveal" aria-labelledby="news-h">
+      <h2 id="news-h">News & Awards</h2>
+
+      <h3>News — Timeline</h3>
+      <div class="timeline">
+        <!-- Nov 2025: Psychonomic -->
+        <div class="tl-item left">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <div class="tl-card">
+            <div class="tl-date">November 2025</div>
+            <div class="tl-title">Graduate Conference Award ($750)</div>
+            <div class="tl-meta">Psychonomic Society — 66th Annual Meeting, Denver, CO.</div>
+          </div>
+        </div>
+
+        <!-- May 2025: Goldman -->
+        <div class="tl-item right">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <div class="tl-card">
+            <div class="tl-date">May 2025</div>
+            <div class="tl-title">Jacqueline Goldman Spring Scholarship ($8,000)</div>
+            <div class="tl-meta">Department of Psychology, University of Florida — supports my dissertation project.</div>
+          </div>
+        </div>
+
+        <!-- Apr 2025: Balkhi -->
+        <div class="tl-item left">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <div class="tl-card">
+            <div class="tl-date">April 2025</div>
+            <div class="tl-title">The Balkhi Experiential Learning Award ($500)</div>
+            <div class="tl-meta">Department of Psychology, University of Florida.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:20px;">Selected Awards</h3>
       <ul class="list stagger">
         <li><div class="item-title">Jacqueline Goldman Spring Scholarship</div><div class="meta">2024, 2025</div></li>
         <li><div class="item-title">Psychonomic Society Graduate Conference Awards</div><div class="meta">2023, 2025</div></li>
@@ -127,74 +448,223 @@
       </ul>
     </section>
 
-    <section id="skills" class="reveal" aria-labelledby="skills-h">
-      <h2 id="skills-h">Skills</h2>
-      <div class="grid-2 stagger">
-        <ul class="list">
-          <li><div class="item-title">Methods</div><div class="meta">VR task design (immersive & desktop), qualitative interviews, mixed-methods, experimental design.</div></li>
-          <li><div class="item-title">Analysis</div><div class="meta">Behavioral data analysis; reproducible workflows.</div></li>
-        </ul>
-        <ul class="list">
-          <li><div class="item-title">Tools</div><div class="meta">Qualtrics, PsychoPy, Photoshop.</div></li>
-          <li><div class="item-title">Languages</div><div class="meta">English (fluent), Turkish (native), Italian (beginner).</div></li>
-        </ul>
+    <!-- PERSONAL -->
+    <section id="personal" class="reveal" aria-labelledby="personal-h">
+      <h2 id="personal-h">Personal</h2>
+
+      <div class="personal">
+        <div class="personal-grid">
+          <div>
+            <h3>Interests & Aesthetics</h3>
+            <ul class="list">
+              <li><div class="item-title">Design-forward</div><div class="meta">I love well-designed things. Minimalist & modern architecture speaks to me. Black is my favorite color.</div></li>
+              <li><div class="item-title">My companion for life</div><div class="meta">My purr-fect tuxedo cat, Nova Bean (he's a super Velcro cat, loves human attention more than food!).</div></li>
+              <li><div class="item-title">Photography</div><div class="meta">I shoot clean lines, light, and quiet textures.</div></li>
+            </ul>
+
+            <h3>Currently</h3>
+            <ul class="list">
+              <li><div class="item-title">Learning</div><div class="meta">Qualitative methods.</div></li>
+              <li><div class="item-title">Teaching</div><div class="meta">Making Intro to Psych more interactive, applied, and inclusive.</div></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Values</h3>
+            <ul class="list">
+              <li><div class="item-title">Teamwork & Impact</div><div class="meta">I care about work that changes how we navigate—ideas, places, and people.</div></li>
+              <li><div class="item-title">Open & Ethical Science</div><div class="meta">Transparency, reproducibility, and participant-first practices guide my research.</div></li>
+            </ul>
+
+            <h3>Fun Facts</h3>
+            <ul class="list">
+              <li><div class="item-title">Mentor</div><div class="meta">I host a YouTube series for students in Türkiye considering PhDs in the US; I’ve mentored 10+ students so far.</div></li>
+              <li><div class="item-title">Name hack</div><div class="meta">If you’re wondering how to say my name, my Starbucks name is <em>AJ</em>—at this point I answer to both 😊</div></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Photography showcase: image only, auto-rotating -->
+        <div class="projects-grid" aria-label="Photography showcase">
+          <article class="project-card" data-no-flip id="photo-card">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="proj-media">
+                  <img id="photoRotatorImg" src="1.jpg" alt="Photography showcase">
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section id="future" class="reveal" aria-labelledby="future-h">
-      <h2 id="future-h">Future Research Directions</h2>
-      <ul class="list stagger">
-        <li><div class="item-title">Aging & Virtual Reality</div><div class="meta">Investigate how age-related differences influence spatial navigation and memory using VR and mixed-methods.</div></li>
-        <li><div class="item-title">Human-Centered Spatial Design</div><div class="meta">Develop evidence-based principles for navigation-friendly, human-centric spaces.</div></li>
-      </ul>
-    </section>
-
-    <section id="teaching" class="reveal" aria-labelledby="teach-h">
-      <h2 id="teach-h">Teaching</h2>
-      <ul class="list stagger">
-        <li><div class="item-title">PSY2012 — General Psychology</div><div class="meta">Graduate Instructor (Fall 2025, Spring 2026). Active learning, transparent grading, professional communication.</div></li>
-        <li><div class="item-title">TAships</div><div class="meta">Memory & Memory Improvement (Sp25); General Psychology (Fa24); Cognitive Psychology (Sp22, Sp23); Physiological Psychology (Fa21, Fa23); Sensation & Perception Lab (Fa22).</div></li>
-      </ul>
-    </section>
-
+    <!-- CONTACT -->
     <section id="contact" class="reveal" aria-labelledby="contact-h">
       <h2 id="contact-h">Contact</h2>
-      <p>Email: <a href="mailto:eceyuksel@ufl.edu">eceyuksel@ufl.edu</a>
-        · <a href="https://www.linkedin.com/in/ece-yuksel/" target="_blank" rel="noopener">LinkedIn</a>
-        · <a href="https://github.com/eceyuksel" target="_blank" rel="noopener">GitHub</a></p>
+      <div class="contact-list">
+        <a class="contact-link" href="mailto:eceyuksel@ufl.edu" aria-label="Email">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="m22 8-10 6L2 8"/>
+          </svg>
+          eceyuksel@ufl.edu
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/ece-yuksel/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4V8.5zm7 0h3.8v2h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.75 2.63 4.75 6.05V23h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.17 0-2.5 1.7-2.5 3.45V23h-4V8.5z"/>
+          </svg>
+          LinkedIn
+        </a>
+        <a class="contact-link" href="https://github.com/eceyuksel" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.23 3.4 9.66 8.12 11.23.6.12.82-.27.82-.6 0-.3-.01-1.1-.02-2.15-3.3.73-4-1.6-4-1.6-.55-1.42-1.34-1.8-1.34-1.8-1.1-.77.08-.76.08-.76 1.22.09 1.86 1.28 1.86 1.28 1.08 1.87 2.84 1.33 3.54 1.02.11-.8.42-1.33.76-1.64-2.63-.3-5.4-1.35-5.4-6.02 0-1.33.46-2.41 1.22-3.26-.12-.3-.53-1.52.11-3.17 0 0 1-.33 3.3 1.24a11.4 11.4 0 0 1 6 0c2.3-1.57 3.3-1.24 3.3-1.24.64 1.65.23 2.87.11 3.17.76.85 1.22 1.93 1.22 3.26 0 4.68-2.78 5.72-5.42 6.02.43.37.81 1.09.81 2.2 0 1.59-.02 2.87-.02 3.26 0 .33.22.72.83.6A11.5 11.5 0 0 0 23.5 12.3 11.5 11.5 0 0 0 12 .5z"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
     </section>
   </div>
 
   <footer style="border-top:1px solid var(--line);padding:16px 20px;color:var(--muted);">
-    <div style="max-width:var(--maxw);margin:0 auto">&copy; <span id="y"></span> Ece Yüksel · <a href="#about">Back to top</a></div>
+    <div class="footwrap">
+      <div>&copy; <span id="y"></span> Ece Yüksel · <a href="#about">Back to top</a></div>
+      <nav class="footer-links" aria-label="Section links">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#cv">CV</a>
+        <a href="#news">News & Awards</a>
+        <a href="#personal">Personal</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </footer>
 
   <script>
+    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
-    const titleElement = document.getElementById('titles');
+
+    // Typewriter
+    const tw = document.getElementById('tw');
     const titleWords = ['Architect', 'Cognitive Psychologist', 'Ph.D. Candidate'];
-    (function typeLoop(element, words){
+    (function typeLoop(el, words){
       let i = 0, j = 0, deleting = false;
       (function loop(){
         const word = words[i];
-        if(!deleting){element.textContent = word.substring(0, j++);if(j > word.length + 5){deleting = true;}}
-        else{element.textContent = word.substring(0, j--);if(j < 0){deleting = false;i = (i + 1) % words.length;}}
+        if(!deleting){ el.textContent = word.substring(0, j++); if(j > word.length + 5){ deleting = true; } }
+        else{ el.textContent = word.substring(0, j--); if(j < 0){ deleting = false; i = (i + 1) % words.length; } }
         setTimeout(loop, deleting ? 60 : 120);
       })();
-    })(titleElement, titleWords);
+    })(tw, titleWords);
 
+    // Reveal-on-scroll
     const revealers = [...document.querySelectorAll('.reveal'), ...document.querySelectorAll('.stagger')];
-    const io = new IntersectionObserver(entries => {entries.forEach(e => {if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target);}});}, {threshold: .12});
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+    }, {threshold:.12});
     revealers.forEach(el => io.observe(el));
 
+    // Theme toggle
     const toggle = document.getElementById('themeToggle');
     const root = document.documentElement;
     const STORAGE_KEY = 'theme';
-    function applyTheme(t){root.setAttribute('data-theme', t);toggle.textContent = (t === 'dark' ? '☀️' : '🌙');toggle.setAttribute('aria-pressed', t === 'dark');}
+    function applyTheme(t){
+      root.setAttribute('data-theme', t);
+      toggle.textContent = (t === 'dark' ? '☀️' : '🌙');
+      toggle.setAttribute('aria-pressed', t === 'dark');
+    }
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     let theme = localStorage.getItem(STORAGE_KEY) || (prefersDark ? 'dark' : 'light');
     applyTheme(theme);
-    toggle.addEventListener('click', () => {theme = (theme === 'dark' ? 'light' : 'dark');localStorage.setItem(STORAGE_KEY, theme);applyTheme(theme);});
+    toggle.addEventListener('click', () => {
+      theme = (theme === 'dark' ? 'light' : 'dark');
+      localStorage.setItem(STORAGE_KEY, theme);
+      applyTheme(theme);
+    });
+
+    // Scroll progress
+    const pb = document.getElementById('progressBar');
+    function updateProgress(){
+      const docEl = document.documentElement;
+      const body = document.body;
+      const scrollTop = (typeof window.scrollY === 'number' ? window.scrollY : docEl.scrollTop || body.scrollTop || 0);
+      const scrollHeight = Math.max(docEl.scrollHeight, body.scrollHeight);
+      const clientHeight = docEl.clientHeight;
+      const max = Math.max(scrollHeight - clientHeight, 1);
+      pb.style.height = (Math.min(Math.max((scrollTop / max) * 100, 0), 100)) + '%';
+    }
+
+    // Sticky hero buttons
+    const hero = document.getElementById('hero');
+    const heroButtons = document.getElementById('heroButtons');
+    const spacer = document.getElementById('stickySpacer');
+    function updateSticky(){
+      const heroHeight = hero.getBoundingClientRect().height || hero.offsetHeight;
+      const y = typeof window.scrollY === 'number' ? window.scrollY : (document.documentElement.scrollTop || document.body.scrollTop || 0);
+      const shouldStick = y >= heroHeight - 1;
+      heroButtons.classList.toggle('is-sticky', shouldStick);
+      spacer.style.height = shouldStick ? (heroButtons.offsetHeight + 'px') : '0px';
+    }
+
+    // ---- Projects: flip + dynamic sizing (half-size, scrollable) ----
+    function sizeCard(card){
+      const inner = card.querySelector('.card-inner');
+      const front = card.querySelector('.card-front');
+      const back  = card.querySelector('.card-back');
+      if(!inner) return;
+
+      const maxH = Math.floor(window.innerHeight * 0.60);
+      const minH = 180;
+      const targetFront = front ? front.scrollHeight + 1 : 0;
+      const targetBack  = back  ? back.scrollHeight  + 1 : 0;
+      const target = Math.max(minH, Math.min(Math.max(targetFront, targetBack), maxH));
+      inner.style.height = target + 'px';
+    }
+
+    function initProjects(){
+      document.querySelectorAll('[data-card], [data-no-flip]').forEach(card=>{
+        const noFlip = card.hasAttribute('data-no-flip');
+
+        if(!noFlip){
+          card.addEventListener('click', e=>{
+            if(e.target.closest('.flip-back')) return;
+            card.classList.toggle('is-flipped');
+            requestAnimationFrame(()=> sizeCard(card));
+          });
+          card.querySelectorAll('[data-flip-back]').forEach(btn=>{
+            btn.addEventListener('click', e=>{ e.preventDefault(); e.stopPropagation(); card.classList.remove('is-flipped'); requestAnimationFrame(()=> sizeCard(card)); });
+          });
+        }
+        sizeCard(card);
+      });
+    }
+
+    // Photography rotator (1.jpg .. 10.jpg)
+    (function initPhotoRotator(){
+      const img = document.getElementById('photoRotatorImg');
+      if(!img) return;
+      const total = 10;
+      const ext = '.jpg';
+      let i = 1;
+      setInterval(()=>{
+        i = (i % total) + 1;
+        img.src = i + ext;
+      }, 3000);
+    })();
+
+    function onResize(){
+      updateProgress();
+      updateSticky();
+      document.querySelectorAll('.project-card, [data-no-flip]').forEach(sizeCard);
+    }
+
+    updateProgress();
+    updateSticky();
+    initProjects();
+
+    window.addEventListener('scroll', () => { updateProgress(); updateSticky(); }, {passive:true});
+    window.addEventListener('resize', onResize);
+    window.addEventListener('load', onResize);
+    setTimeout(updateSticky, 150);
   </script>
 </body>
 </html>
