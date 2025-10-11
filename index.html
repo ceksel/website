@@ -10,7 +10,6 @@
     :root{
       --bg:#ffffff; --fg:#000000; --muted:#222222;
       --line:rgba(0,0,0,.18); --accent:#000000; --maxw:860px;
-      --pb-w:10px;
     }
     /* Dark theme variables */
     [data-theme="dark"]{
@@ -20,14 +19,6 @@
 
     html,body{margin:0;padding:0;height:100%;scroll-behavior:smooth;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,-apple-system,system-ui,"Segoe UI",Roboto,Arial,"Noto Sans";overflow-x:hidden;transition:background .4s ease,color .4s ease;}
     a{color:inherit;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.08em;}
-
-    /* LEFT SCROLL PROGRESS BAR (theme-aware) */
-    .progress-track{
-      position:fixed;inset:0 auto 0 0;width:var(--pb-w);
-      background:transparent;border:1px solid var(--fg);border-left:none;
-      box-sizing:border-box;z-index:9999
-    }
-    .progress-bar{position:absolute;left:0;top:0;width:100%;height:0%;background:var(--fg);transition:height .12s linear;}
 
     /* HERO */
     .hero{position:relative;width:100%;height:100vh;background:url('22.jpg') center/cover no-repeat;filter:grayscale(100%);display:flex;justify-content:center;align-items:center;text-align:center;transition:filter .4s ease;}
@@ -80,8 +71,9 @@
     .item-title{font-weight:600;}
     .meta{color:var(--muted);font-size:14.5px;}
 
-    .theme-toggle{position:fixed;top:20px;right:20px;border:1px solid var(--fg);background:transparent;color:var(--fg);border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;z-index:10000;transition:background .3s ease,color .3s ease;}
-    .theme-toggle:hover{background:var(--fg);color:var(--bg);}
+    /* Theme toggle (square, white fill) */
+    .theme-toggle{position:fixed;top:20px;right:20px;border:1px solid var(--fg);background:#ffffff;color:#000000;border-radius:0;width:40px;height:40px;font-size:20px;cursor:pointer;z-index:10000;transition:transform .12s ease;}
+    .theme-toggle:hover{transform:translateY(-2px);}
 
     /* CV button */
     .cv-btn{
@@ -164,12 +156,39 @@
 
     /* About affiliation line: larger font, no extra space */
     .about-affil{font-size:16.5px; margin:0;}
+
+    /* Keyword squares in About */
+    .kw{display:inline-block;border:1px solid var(--fg);background:var(--fg);color:var(--bg);border-radius:0;padding:4px 8px;margin-right:6px;margin-top:6px;}
+
+    /* --- Photography card tweaks --- */
+    /* Remove scrollbar only for the photography card */
+    #photo-card .card-face{overflow:hidden;}
+    /* Click-to-enlarge behavior */
+    #photo-card{cursor:zoom-in;}
+    #photo-card.is-expanded{
+      position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+      width:min(92vw, 1100px);
+      z-index:11001; cursor:zoom-out;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+      border-color:transparent;
+    }
+    #photo-card.is-expanded .card-inner{min-height:unset; height:auto;}
+    /* Backdrop for enlargement */
+    #overlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.6);
+      backdrop-filter:blur(2px);
+      opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:11000;
+    }
+    #overlay.show{opacity:1; pointer-events:auto;}
+    body.no-scroll{overflow:hidden;}
+
+    /* Make photography card span two columns on desktop */
+    @media(min-width:780px){
+      .projects-grid #photo-card{grid-column:1 / -1;}
+    }
   </style>
 </head>
 <body>
-  <!-- Left progress bar -->
-  <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
-
   <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-pressed="false">🌙</button>
 
   <!-- HERO -->
@@ -206,7 +225,7 @@
         <img src="eyb.png" alt="EY dark icon" class="icon-ey dark">
       </h2>
       <p>I study how humans represent, remember, and navigate space across real and virtual environments. My work bridges
-        <span class="pill">spatial cognition</span><span class="pill">aging</span><span class="pill">VR</span><span class="pill">human-centered design</span> with mixed-methods: behavioral tasks, immersive VR, and qualitative interviews.</p>
+        <span class="kw">spatial cognition</span>; <span class="kw">aging</span>; <span class="kw">VR</span>; <span class="kw">human-centered design</span> with mixed-methods: behavioral tasks, immersive VR, and qualitative interviews.</p>
       <p class="about-affil">Department of Psychology, University of Florida · Behavioral & Cognitive Neuroscience (Ph.D. candidate).</p>
     </section>
 
@@ -375,7 +394,6 @@
     <!-- 3) CV -->
     <section id="cv" class="reveal" aria-labelledby="cv-h">
       <h2 id="cv-h">CV</h2>
-      <p class="meta">Full, up-to-date curriculum vitae as PDF.</p>
       <a class="cv-btn" href="yuksel_CV.pdf" download aria-label="Download my CV (PDF)">Download CV (PDF)</a>
     </section>
 
@@ -454,7 +472,7 @@
             <ul class="list">
               <li>
                 <div class="item-title">Teamwork & Impact</div>
-                <div class="meta">I aim to create human-centered impact—on people, research practices, learning spaces, and navigation-friendly design. From mentoring students to shaping studies and built environments, I care about work that improves how people learn, orient, and move with confidence.</div>
+                <div class="meta">I aim to create human-centered impact—on people, research practices, learning spaces, and navigation-friendly design. From mentoring students to shaping studies and built environments, I care about work that improves how people learn, orient.</div>
               </li>
             </ul>
 
@@ -509,6 +527,7 @@
           </svg>
           GitHub
         </a>
+        <a class="contact-link" href="https://scholar.google.com/citations?user=ImXsclMAAAAJ&hl=tr" target="_blank" rel="noopener" aria-label="Google Scholar">Google Scholar</a>
       </div>
     </section>
   </div>
@@ -527,6 +546,9 @@
       </nav>
     </div>
   </footer>
+
+  <!-- Backdrop for photo enlargement -->
+  <div id="overlay" aria-hidden="true"></div>
 
   <script>
     // Footer year
@@ -570,18 +592,6 @@
       applyTheme(theme);
     });
 
-    // Scroll progress
-    const pb = document.getElementById('progressBar');
-    function updateProgress(){
-      const docEl = document.documentElement;
-      const body = document.body;
-      const scrollTop = (typeof window.scrollY === 'number' ? window.scrollY : docEl.scrollTop || body.scrollTop || 0);
-      const scrollHeight = Math.max(docEl.scrollHeight, body.scrollHeight);
-      const clientHeight = docEl.clientHeight;
-      const max = Math.max(scrollHeight - clientHeight, 1);
-      pb.style.height = (Math.min(Math.max((scrollTop / max) * 100, 0), 100)) + '%';
-    }
-
     // Sticky hero buttons
     const hero = document.getElementById('hero');
     const heroButtons = document.getElementById('heroButtons');
@@ -600,6 +610,9 @@
       const front = card.querySelector('.card-front');
       const back  = card.querySelector('.card-back');
       if(!inner) return;
+      // Skip sizing when photo card is expanded
+      if(card.id === 'photo-card' && card.classList.contains('is-expanded')) return;
+
       const maxH = Math.floor(window.innerHeight * 0.60);
       const minH = 180;
       const targetFront = front ? front.scrollHeight + 1 : 0;
@@ -642,7 +655,7 @@
         }
         const src = `${num}${exts[extIndex]}`;
         img.onerror = () => tryLoad(num, extIndex+1);
-        img.onload  = () => {}; // clear error chain once loaded
+        img.onload  = () => {};
         img.src = src;
       }
 
@@ -655,17 +668,39 @@
       setInterval(next, 3000);
     })();
 
+    // Click-to-enlarge photo card
+    (function initPhotoExpand(){
+      const photoCard = document.getElementById('photo-card');
+      const overlay = document.getElementById('overlay');
+      if(!photoCard || !overlay) return;
+
+      function expand(on){
+        photoCard.classList.toggle('is-expanded', on);
+        overlay.classList.toggle('show', on);
+        document.body.classList.toggle('no-scroll', on);
+      }
+
+      photoCard.addEventListener('click', () => {
+        const on = !photoCard.classList.contains('is-expanded');
+        expand(on);
+      });
+
+      overlay.addEventListener('click', () => expand(false));
+
+      window.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') expand(false);
+      });
+    })();
+
     function onResize(){
-      updateProgress();
       updateSticky();
       document.querySelectorAll('.project-card, [data-no-flip]').forEach(sizeCard);
     }
 
-    updateProgress();
     updateSticky();
     initProjects();
 
-    window.addEventListener('scroll', () => { updateProgress(); updateSticky(); }, {passive:true});
+    window.addEventListener('scroll', () => { updateSticky(); }, {passive:true});
     window.addEventListener('resize', onResize);
     window.addEventListener('load', onResize);
     setTimeout(updateSticky, 150);
